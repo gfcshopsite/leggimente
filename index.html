@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeggiMente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('images/sfondo.jpg'); /* Immagine locale dalla cartella "images" */
+            background-size: cover;
+            color: white;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            width: 80%;
+            max-width: 300px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            background-color: #5cb85c;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .loading {
+            display: none;
+            font-size: 1.2em;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        .progress-container {
+            width: 100%;
+            max-width: 300px;
+            background-color: #ddd;
+            border-radius: 25px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 20px;
+            background-color: #5cb85c;
+            border-radius: 25px;
+        }
+
+        /* Media Query per schermi piccoli */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            p {
+                font-size: 1em;
+            }
+
+            input[type="number"] {
+                font-size: 1em;
+                width: 90%;
+            }
+
+            button {
+                font-size: 1em;
+            }
+
+            .result {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>LeggiMente</h1>
+    <p>Inserisci un numero tra 1 e 100 e indovinerò il tuo numero!</p>
+
+    <input type="number" id="userNumber" placeholder="Inserisci un numero" min="1" max="100">
+    <button onclick="startMindReading()">Indovina!</button>
+
+    <div class="loading" id="loading">Ti sto leggendo nel pensiero...</div>
+    <div class="progress-container" id="progressContainer">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="result" id="result"></div>
+
+    <script>
+        // Funzione per avviare la lettura della mente
+        function startMindReading() {
+            let userNumber = document.getElementById("userNumber").value;
+            let loadingMessage = document.getElementById("loading");
+            let resultMessage = document.getElementById("result");
+            let progressContainer = document.getElementById("progressContainer");
+            let progressBar = document.getElementById("progressBar");
+
+            if (userNumber >= 1 && userNumber <= 100) {
+                loadingMessage.style.display = "block";
+                progressContainer.style.display = "block";
+                resultMessage.innerText = "";
+                progressBar.style.width = "0%";
+
+                // Animazione della progress bar
+                let progress = 0;
+                let interval = setInterval(function() {
+                    progress += 1;
+                    progressBar.style.width = progress + "%";
+
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        loadingMessage.style.display = "none";
+                        progressContainer.style.display = "none";
+                        resultMessage.innerText = "Hai pensato al numero: " + userNumber + "!";
+                    }
+                }, 30); // Imposta la velocità della barra di progresso a 3 secondi
+            } else {
+                resultMessage.innerText = "Inserisci un numero valido tra 1 e 100.";
+                loadingMessage.style.display = "none";
+                progressContainer.style.display = "none";
+            }
+        }
+
+        // Ascoltatore di eventi per il tasto "Enter"
+        document.getElementById("userNumber").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Previene il comportamento predefinito
+                startMindReading(); // Avvia la funzione di lettura della mente
+            }
+        });
+    </script>
+</body>
+</html>
