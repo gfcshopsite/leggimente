@@ -13,15 +13,6 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
             background-image: url('https://cdn.discordapp.com/attachments/1134533272441983086/1298282384277508197/Leonardo_Phoenix_A_futuristic_hightech_background_with_a_subtl_22.jpg?ex=6718ff31&is=6717adb1&hm=306bd79fd851cda0a13bfc08945f5b8ca4d6e46df89a77497148e11dbae1a9a6&');
             background-size: cover;
             color: white;
@@ -132,7 +123,6 @@
     <div class="result" id="result"></div>
 
     <script>
-        // Funzione per avviare la lettura della mente
         function startMindReading() {
             let userNumber = document.getElementById("userNumber").value;
             let loadingMessage = document.getElementById("loading");
@@ -158,7 +148,7 @@
                         progressContainer.style.display = "none";
                         resultMessage.innerText = "Hai pensato al numero: " + userNumber + "!";
                     }
-                }, 30); // Imposta la velocità della barra di progresso a 3 secondi
+                }, 30); // 30ms per creare una durata di circa 3 secondi
             } else {
                 resultMessage.innerText = "Inserisci un numero valido tra 1 e 100.";
                 loadingMessage.style.display = "none";
@@ -166,11 +156,10 @@
             }
         }
 
-        // Ascoltatore di eventi per il tasto "Enter"
-        document.getElementById("userNumber").addEventListener("keypress", function(event) {
+        // Ascolta il tasto invio sull'input
+        document.getElementById("userNumber").addEventListener("keydown", function(event) {
             if (event.key === "Enter") {
-                event.preventDefault(); // Previene il comportamento predefinito
-                startMindReading(); // Avvia la funzione di lettura della mente
+                startMindReading();
             }
         });
     </script>
